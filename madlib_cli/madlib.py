@@ -1,3 +1,7 @@
+import re
+
+PARTS_OF_SPEECH = 'Adjective|Noun|Verb|Adverb|Interjection'
+
 WELCOME_MESSAGE = '''Welcome to the Python Madlib!
 This tool will ask you for some words,
 and then generate a funny text file
@@ -20,8 +24,10 @@ def read_template(file):
         return contents
 
 
-def parse_template():
-    pass
+def parse_template(string):
+    words_required = re.findall(PARTS_OF_SPEECH, string)
+    stripped_template = re.sub(PARTS_OF_SPEECH, '', string)
+    return stripped_template, tuple(words_required)
 
 def merge():
     pass
