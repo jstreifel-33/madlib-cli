@@ -1,5 +1,8 @@
 def read_template(file):
-    pass
+    with open(file, 'r') as f:
+        contents = f.read()
+        return contents
+
 
 def parse_template():
     pass
