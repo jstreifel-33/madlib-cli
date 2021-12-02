@@ -1,5 +1,7 @@
 import re
 
+### CONSTANTS ###
+
 PARTS_OF_SPEECH = "Adjective|Noun|Verb|Adverb|Interjection"
 
 WELCOME_MESSAGE = """Welcome to the Python Madlib!
@@ -24,6 +26,7 @@ Invalid command!
 Enter "help" to see a list of valid commands.
 """
 
+### USEFUL THINGS ###
 
 class FileNotFoundError(Exception):
     def __init__(self):
@@ -56,6 +59,8 @@ def border_print(message, top_bott_bord=True):
   print('')
 
 
+### FILE HANDLING ###
+
 def read_template(file):
     with open(file, "r") as f:
         contents = f.read()
@@ -68,7 +73,7 @@ def parse_template(template):
 
     # Replace parts of speech with empty string
     stripped_template = re.sub(PARTS_OF_SPEECH, "", template)
-    
+
     return stripped_template, tuple(words_required)
 
 
@@ -76,11 +81,31 @@ def merge(template, words):
     return template.format(*words)
 
 
+### GAME ACTIONS ###
+
 def get_input():
     while True:
         command = input('> ')
         cmd_process(command)
     
+
+def generate_madlib(file):
+    raw_template = read_template(file)
+    template, words = parse_template(raw_template)
+    
+    user_words = []
+
+    for word in words:
+        response = input(f"""
+        Enter a {word}:""")
+        user_words.append(response)
+
+    return merge(template, user_words)
+
+def save_madlib(content):
+    with open("assets/madlib_result.txt", "w") as f:
+        f.write(content)
+    print("Madlib generated successfully!")
 
 def cmd_process(cmd):
     if cmd == 'exit':
@@ -90,11 +115,15 @@ def cmd_process(cmd):
         print(HELP_TEXT)
         return
 
+    if cmd == 'start':
+        generate_madlib("assets/dark_and_stormy_night_template.txt")
+        return
+
     print(INVALID_TEXT)
     return
 
 
-# GAME RUNNING SCRIPT
+### GAME RUNNING SCRIPT ###
 
-border_print(WELCOME_MESSAGE)
-get_input()
+# border_print(WELCOME_MESSAGE)
+# get_input()
