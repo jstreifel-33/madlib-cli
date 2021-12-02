@@ -127,12 +127,13 @@ def cmd_process(cmd, file):
             with open("assets/madlib_result.txt", "r") as f:
                 contents = f.read()
                 print(f'\nMost recent madlib:\n{contents}\n')
-        except FileNotFoundError:
-            raise FileNotFoundError("No madlibs have been generated!")
+        except FileNotFoundError as e:
+            print('\nError: no existing madlib at path assets/madlibresults.txt\n')
         return
 
     if cmd == 'changelib':
-        print('Coming Soon!')
+        print('\nComing Soon!\n')
+        return
 
     print(INVALID_TEXT)
     return
