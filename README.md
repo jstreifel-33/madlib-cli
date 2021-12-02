@@ -8,4 +8,4 @@ App is not deployed to the cloud. Please feel free to fork/clone this repo if yo
 
 ## Submission
 
-PR for Submission[Working Branch #1](http.cats)
+PR for Submission[Working Branch #1](https://github.com/jstreifel-33/madlib-cli/pull/1)
