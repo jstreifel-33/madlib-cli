@@ -28,11 +28,6 @@ Enter "help" to see a list of valid commands.
 
 ### USEFUL THINGS ###
 
-class FileNotFoundError(Exception):
-    def __init__(self):
-        super().__init__()
-
-
 def border_print(message, top_bott_bord=True):
   msg_list = message.splitlines()
   msg_width = 0
@@ -62,9 +57,14 @@ def border_print(message, top_bott_bord=True):
 ### FILE HANDLING ###
 
 def read_template(file):
-    with open(file, "r") as f:
-        contents = f.read()
-        return contents
+    try:
+        with open(file, "r") as f:
+            contents = f.read()
+            return contents
+    except FileNotFoundError:
+        raise FileNotFoundError
+
+
 
 
 def parse_template(template):
