@@ -17,6 +17,7 @@ HELP_TEXT = """
 Command options:
 start - begin generating a madlib
 view - display most recent madlib inside the console
+changelib - select a new madlib
 help - you are here
 exit - quit the program
 """
@@ -65,8 +66,6 @@ def read_template(file):
         raise FileNotFoundError
 
 
-
-
 def parse_template(template):
     # Extract parts of speech from template
     words_required = re.findall(PARTS_OF_SPEECH, template)
@@ -83,10 +82,10 @@ def merge(template, words):
 
 ### GAME ACTIONS ###
 
-def get_input():
-    while True:
-        command = input('> ')
-        cmd_process(command)
+def get_input(file="assets/dark_and_stormy_night_template.txt"):
+    command = input('> ')
+    cmd_process(command, file)
+    get_input(file)
     
 
 def generate_madlib(file):
@@ -96,8 +95,7 @@ def generate_madlib(file):
     user_words = []
 
     for word in words:
-        response = input(f"""
-        Enter a {word}:""")
+        response = input(f"\nEnter a(n) {word}: ")
         user_words.append(response)
 
     return merge(template, user_words)
@@ -105,10 +103,14 @@ def generate_madlib(file):
 def save_madlib(content):
     with open("assets/madlib_result.txt", "w") as f:
         f.write(content)
-    print("Madlib generated successfully!")
+    print('\nMadlib generated successfully!\nEnter "view" to display!\n')
 
-def cmd_process(cmd):
+def select_madlib():
+    pass
+
+def cmd_process(cmd, file):
     if cmd == 'exit':
+        print("\nGoodbye!")
         exit()
 
     if cmd == 'help':
@@ -116,8 +118,21 @@ def cmd_process(cmd):
         return
 
     if cmd == 'start':
-        generate_madlib("assets/dark_and_stormy_night_template.txt")
+        madlib = generate_madlib(file)
+        save_madlib(madlib)
         return
+
+    if cmd == 'view':
+        try:
+            with open("assets/madlib_result.txt", "r") as f:
+                contents = f.read()
+                print(f'\nMost recent madlib:\n{contents}\n')
+        except FileNotFoundError:
+            raise FileNotFoundError("No madlibs have been generated!")
+        return
+
+    if cmd == 'changelib':
+        print('Coming Soon!')
 
     print(INVALID_TEXT)
     return
@@ -125,5 +140,6 @@ def cmd_process(cmd):
 
 ### GAME RUNNING SCRIPT ###
 
-# border_print(WELCOME_MESSAGE)
-# get_input()
+def start_game():
+    border_print(WELCOME_MESSAGE)
+    get_input()
